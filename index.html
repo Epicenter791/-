@@ -57,52 +57,51 @@ main#home>section:first-of-type{margin-top:0!important}
 @media(max-width:760px){header.top{position:sticky!important;inset:auto!important;width:100%!important;height:auto!important;min-height:0!important}main#home{margin-left:0!important;padding-top:0!important}}
 
 
-/* Theme-aware navigation, CTA and button glow */
-.btn:not(.ghost), .links a[href="#join"] {
-  box-shadow: 0 0 10px color-mix(in srgb,var(--lime) 22%,transparent),
-              0 0 26px color-mix(in srgb,var(--lime) 18%,transparent);
-}
-.btn:not(.ghost):hover, .links a[href="#join"]:hover {
-  box-shadow: 0 0 14px color-mix(in srgb,var(--lime) 38%,transparent),
-              0 0 34px color-mix(in srgb,var(--lime) 30%,transparent);
-}
+
+
+/* Simple active navigation state without glow */
 .links a.active-nav {
   color: var(--lime) !important;
-  background: color-mix(in srgb,var(--lime) 11%,#0b1016) !important;
-  border-color: color-mix(in srgb,var(--lime) 48%,#26313d) !important;
-  box-shadow: inset 3px 0 0 var(--lime), 0 0 18px color-mix(in srgb,var(--lime) 10%,transparent);
+  background: color-mix(in srgb,var(--lime) 10%,#0b1016) !important;
+  border-color: color-mix(in srgb,var(--lime) 42%,#26313d) !important;
+  box-shadow: none !important;
 }
-.links a[href="#join"] {
-  color: #11170a !important;
-  background: linear-gradient(120deg,color-mix(in srgb,var(--lime) 78%,white),var(--lime)) !important;
-  border-color: var(--lime) !important;
-}
+.links a[href="#join"] { box-shadow: none !important; }
+.btn { box-shadow: none !important; }
+
+/* EPICENTER startup screen */
+#epic-loader{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 42%,#30203e 0%,#15101d 42%,#09080e 100%);color:#f7f2fb;transition:opacity .45s ease,visibility .45s ease}
+#epic-loader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+#epic-loader .loader-inner{width:min(440px,calc(100% - 44px));text-align:center}
+#epic-loader .loader-mark{width:66px;height:66px;margin:0 auto 22px;display:grid;place-items:center;border-radius:17px;background:var(--lime,#a855f7);color:#160d1d;font-size:35px;font-weight:1000;box-shadow:none;animation:loader-breathe 1.5s ease-in-out infinite}
+#epic-loader .loader-brand{font-size:clamp(25px,5vw,34px);font-weight:1000;letter-spacing:-.06em}
+#epic-loader .loader-caption{margin-top:8px;color:#b8adbf;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+#epic-loader .loader-track{height:4px;margin:30px 0 12px;background:#ffffff1c;border-radius:99px;overflow:hidden}
+#epic-loader .loader-progress{height:100%;width:0;background:linear-gradient(90deg,var(--lime,#a855f7),var(--cyan,#ff4655));border-radius:99px;animation:epic-loading 1.8s ease forwards}
+#epic-loader .loader-status{font-size:11px;color:#92879d;letter-spacing:.12em}
+#epic-loader .loader-skip{margin-top:26px;padding:10px 20px;border:1px solid #ffffff38;border-radius:9px;background:#ffffff0b;color:#f5eff8;font:700 12px inherit;cursor:pointer;transition:background .2s,border-color .2s}
+#epic-loader .loader-skip:hover{background:#ffffff18;border-color:#ffffff75}
+@keyframes epic-loading{0%{width:0}35%{width:42%}75%{width:78%}100%{width:100%}}
+@keyframes loader-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@media(prefers-reduced-motion:reduce){#epic-loader *{animation:none!important;transition:none!important}.loader-progress{width:100%!important}}
 
 
-/* Consistent focus and active states: one selected sidebar item, using the chosen theme */
-.links a:focus { outline: none; }
-.links a:focus-visible {
-  outline: 1px solid var(--lime);
-  outline-offset: 2px;
-}
-.links a.active-nav {
-  color: var(--lime) !important;
-  background: color-mix(in srgb,var(--lime) 12%,#0b1016) !important;
-  border: 1px solid color-mix(in srgb,var(--lime) 55%,#26313d) !important;
-  box-shadow: inset 3px 0 0 var(--lime), 0 0 16px color-mix(in srgb,var(--lime) 15%,transparent) !important;
-}
-.btn:not(.ghost), .links a[href="#join"] {
-  box-shadow: 0 0 10px color-mix(in srgb,var(--lime) 24%,transparent),
-              0 0 24px color-mix(in srgb,var(--lime) 18%,transparent);
-}
-.btn:not(.ghost):hover, .links a[href="#join"]:hover {
-  box-shadow: 0 0 14px color-mix(in srgb,var(--lime) 38%,transparent),
-              0 0 32px color-mix(in srgb,var(--lime) 30%,transparent);
-}
-.btn:hover { box-shadow: 0 0 24px color-mix(in srgb,var(--lime) 35%,transparent); }
-
+/* Keep the custom cursor above the startup overlay. */
+.cursor-dot,.cursor-ring{z-index:100002!important}
+.cursor-label{z-index:100003!important}
+#epic-loader{z-index:100000!important}
 </style></head>
 <body>
+<div id="epic-loader" role="status" aria-live="polite">
+  <div class="loader-inner">
+    <div class="loader-mark">Э</div>
+    <div class="loader-brand">ЭПИЦЕНТР</div>
+    <div class="loader-caption">Инициализация командного пространства</div>
+    <div class="loader-track"><div class="loader-progress"></div></div>
+    <div class="loader-status">ЗАГРУЗКА СИСТЕМЫ...</div>
+    <button class="loader-skip" id="epic-loader-skip" type="button">Пропустить ↗</button>
+  </div>
+</div>
 <header class="top"><nav class="wrap"><a class="logo" href="#home">ЭПИЦЕНТР<span style="color:var(--cyan)">_</span></a><div style="font-size:10px;color:#8190a0;margin-top:-22px;margin-left:46px">пространство команды</div><div class="links"><a href="#team">Команда</a><a href="#hub">Центр</a><a href="#social">Профили</a><a href="#chat">Сообщения</a><a href="#projects">Проекты</a><a href="#missions">Операции</a><a href="#archive">Архив</a><a href="#backend">Backend</a><a href="#settings">Настройки</a><a class="btn" href="#join">Подать заявку ↗</a></div></nav></header>
 <main id="home"><div class="wrap hero"><div class="eyebrow">ПАНЕЛЬ УПРАВЛЕНИЯ / 01</div><h1>В центре событий<span>.</span></h1><p class="lead">Всё, что нужно команде, — в одном месте.</p><div class="actions"><a class="btn" href="#join">Написать заявку в команду ↗</a><a class="btn ghost" href="#hub">Открыть командный центр</a></div><p class="status"><span class="dot"></span> СИСТЕМА АКТИВНА · FRONTEND ПРОТОТИП</p></div>
 <section id="join"><div class="wrap"><div class="card request-banner"><div class="eyebrow">JOIN THE UNIT / ПРИЁМ ЗАЯВОК</div><h2>Хочешь в команду?</h2><p class="muted">Расскажи о себе и своей идее — заявка откроется в Telegram. Отправка через сайт на сервер не настроена.</p><div class="actions"><a class="btn" href="https://t.me/The_MisterAki" target="_blank" rel="noopener">Написать @The_MisterAki ↗</a><a class="btn ghost" href="https://t.me/MrRedstone_TG" target="_blank" rel="noopener">Написать @MrRedstone_TG ↗</a></div></div></div></section>
@@ -244,4 +243,17 @@ document.getElementById('year').textContent=new Date().getFullYear();render();
  addEventListener('keydown',e=>{if(e.key==='Escape')document.body.classList.remove('cursor-hover','cursor-click');});
 })();
 
-</script></body></html>
+</script><script>
+(()=>{
+ const screen=document.getElementById('epic-loader');
+ const skip=document.getElementById('epic-loader-skip');
+ if(!screen||!skip)return;
+ let closed=false;
+ const close=()=>{if(closed)return;closed=true;screen.classList.add('is-hidden');setTimeout(()=>screen.remove(),500)};
+ skip.addEventListener('click',close);
+ window.addEventListener('load',()=>setTimeout(close,1900),{once:true});
+ // Safety fallback for local files or unusually slow resources.
+ setTimeout(close,6500);
+})();
+</script>
+</body></html>
