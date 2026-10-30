@@ -46,7 +46,7 @@ main,.top,.footer{position:relative;z-index:1}
 @keyframes dot-pulse{0%,100%{opacity:1;box-shadow:0 0 10px var(--lime)}50%{opacity:.45;box-shadow:0 0 2px var(--lime)}}
 @keyframes toast-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @keyframes ripple-out{to{transform:scale(3.2);opacity:0}}
-@media(pointer:coarse),(max-width:760px){body,a,button,input,textarea,label,.channel,.mini-btn{cursor:auto}.cursor-dot,.cursor-ring,.cursor-label,.cursor-spotlight{display:none}body:after{opacity:.06}}
+@media(max-width:760px){body,a,button,input,textarea,label,.channel,.mini-btn{cursor:auto}.cursor-dot,.cursor-ring,.cursor-label,.cursor-spotlight{display:none}body:after{opacity:.06}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
 
 
@@ -86,10 +86,20 @@ main#home>section:first-of-type{margin-top:0!important}
 @keyframes loader-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 @media(prefers-reduced-motion:reduce){#epic-loader *{animation:none!important;transition:none!important}.loader-progress{width:100%!important}}
 
+/* Extra atmosphere: restrained tactical ambience and clearer color reset control. */
+body:before{content:"";position:fixed;inset:-25%;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 18% 28%,color-mix(in srgb,var(--lime) 9%,transparent),transparent 34%),radial-gradient(ellipse at 78% 68%,color-mix(in srgb,var(--cyan) 8%,transparent),transparent 38%);filter:blur(22px);animation:epic-ambient 18s ease-in-out infinite alternate}
+@keyframes epic-ambient{0%{transform:translate3d(-1.5%,0,0) scale(1)}100%{transform:translate3d(1.5%,-1%,0) scale(1.05)}}
+#resetTheme{border-color:color-mix(in srgb,var(--lime) 48%,var(--line));color:var(--lime);background:color-mix(in srgb,var(--lime) 7%,#0b1218);padding:10px 14px;font-weight:800;transition:background .2s,border-color .2s,transform .2s}
+#resetTheme:hover{background:color-mix(in srgb,var(--lime) 14%,#0b1218);border-color:var(--lime);transform:translateY(-2px)}
+.card{background-image:linear-gradient(145deg,color-mix(in srgb,var(--cyan) 3%,#121820),#0b0f15)}
+.section-head .eyebrow{transition:letter-spacing .25s,color .25s}.section-head:hover .eyebrow{letter-spacing:.26em;color:var(--cyan)}
+@media(prefers-reduced-motion:reduce){body:before{animation:none!important}}
+
+
 
 /* Keep the custom cursor above the startup overlay. */
-.cursor-dot,.cursor-ring{z-index:100002!important}
-.cursor-label{z-index:100003!important}
+.cursor-dot,.cursor-ring{z-index:100020!important}
+.cursor-label{z-index:100021!important}
 #epic-loader{z-index:100000!important}
 </style></head>
 <body>
@@ -116,7 +126,7 @@ main#home>section:first-of-type{margin-top:0!important}
 <section id="archive"><div class="wrap"><div class="section-head"><div><div class="eyebrow">06 / KNOWLEDGE ARCHIVE</div><h2>Архив и база знаний</h2><p class="muted">Локальные заметки для идей, решений и документации.</p></div></div><div class="split"><article class="card"><h3>Создать запись</h3><label for="archiveTitle">Заголовок</label><input id="archiveTitle" class="field" maxlength="90" placeholder="Название документа"><label for="archiveText">Содержание</label><textarea id="archiveText" class="field" rows="4" maxlength="2500" placeholder="Идея, решение, инструкция..."></textarea><button class="btn" id="archiveSave">Сохранить в локальный архив</button><p id="archiveStatus" class="toast" aria-live="polite"></p></article><article class="card"><h3>Записи архива</h3><div id="archiveList" class="tablelike"><p class="muted">Пока нет записей.</p></div><p class="muted">Записи хранятся в localStorage этого браузера. Не загружайте сюда пароли или секретные ключи.</p></article></div></div></section>
 <section id="projects"><div class="wrap"><div class="section-head"><div><div class="eyebrow">05 / ROADMAP</div><h2>Проекты и развитие</h2><p class="muted">Отмечай пункты плана — состояние сохраняется локально.</p></div></div><div class="grid"><article class="card"><span class="tag">ЭТАП 01</span><h3>Основа сообщества</h3><label class="task"><input type="checkbox" data-task="site"><span><strong>Сайт и визуальная система</strong><br><small class="muted">Навигация, адаптация, стиль</small></span></label><label class="task"><input type="checkbox" data-task="profiles"><span><strong>Профили участников</strong><br><small class="muted">Локальный прототип</small></span></label><label class="task"><input type="checkbox" data-task="telegram"><span><strong>Telegram-контакты</strong><br><small class="muted">Связь с основателями</small></span></label></article><article class="card"><span class="tag">ЭТАП 02</span><h3>Настоящая онлайн-платформа</h3><label class="task"><input type="checkbox" data-task="api"><span><strong>Backend API и база данных</strong><br><small class="muted">Профили и история на сервере</small></span></label><label class="task"><input type="checkbox" data-task="auth"><span><strong>Безопасная авторизация</strong><br><small class="muted">Сессии, права доступа, защита</small></span></label><label class="task"><input type="checkbox" data-task="realtime"><span><strong>Чат в реальном времени</strong><br><small class="muted">WebSocket и доставка сообщений</small></span></label><p id="taskStatus" class="toast" aria-live="polite"></p></article></div><article class="card" style="margin-top:16px"><h3>Предложить новую идею</h3><p class="muted">Форма не отправляет данные на сервер — она подготовит текст для Telegram.</p><label for="ideaTitle">Название идеи</label><input class="field" id="ideaTitle" maxlength="80" placeholder="Например, турнир сообщества"><label for="ideaDesc">Краткое описание</label><textarea class="field" id="ideaDesc" maxlength="400" rows="3" placeholder="Что это даст команде?"></textarea><button class="btn" id="ideaBtn" type="button">Подготовить предложение ↗</button><p class="toast" id="ideaStatus" aria-live="polite"></p></article></div></section>
 
-<section id="settings"><div class="wrap"><div class="section-head"><div><div class="eyebrow">09 / PERSONALIZATION</div><h2>Настройки интерфейса</h2><p class="muted">Выбери основные цвета сайта и курсора. Настройки сохраняются в этом браузере.</p></div><span class="tag">LOCAL SETTINGS</span></div><div class="split"><article class="card"><h3>Цвет интерфейса</h3><p class="muted">Меняет основной неоновый акцент сайта: активный пункт меню, кнопки и подсветку.</p><label for="accentColor">Основной цвет</label><input id="accentColor" type="color" value="#c8ff45" style="display:block;width:100%;height:48px;padding:4px;margin:8px 0 16px"><label for="secondaryColor">Дополнительный цвет</label><input id="secondaryColor" type="color" value="#43e7ff" style="display:block;width:100%;height:48px;padding:4px;margin:8px 0 16px"><button class="mini-btn" id="resetTheme" type="button">Вернуть стандартные цвета</button></article><article class="card"><h3>Цвет курсора</h3><p class="muted">Меняет цвет точки, кольца и подписи кастомного курсора.</p><label for="cursorColor">Цвет курсора</label><input id="cursorColor" type="color" value="#c8ff45" style="display:block;width:100%;height:48px;padding:4px;margin:8px 0 16px"><div class="notice">На телефонах и устройствах с сенсорным экраном кастомный курсор автоматически скрывается.</div><p id="settingsStatus" class="toast" aria-live="polite"></p></article></div></div></section>
+<section id="settings"><div class="wrap"><div class="section-head"><div><div class="eyebrow">09 / PERSONALIZATION</div><h2>Настройки интерфейса</h2><p class="muted">Выбери основные цвета сайта и курсора. Настройки сохраняются в этом браузере.</p></div><span class="tag">LOCAL SETTINGS</span></div><div class="split"><article class="card"><h3>Цвет интерфейса</h3><p class="muted">Меняет основной неоновый акцент сайта: активный пункт меню, кнопки и подсветку.</p><label for="accentColor">Основной цвет</label><input id="accentColor" type="color" value="#c8ff45" style="display:block;width:100%;height:48px;padding:4px;margin:8px 0 16px"><label for="secondaryColor">Дополнительный цвет</label><input id="secondaryColor" type="color" value="#43e7ff" style="display:block;width:100%;height:48px;padding:4px;margin:8px 0 16px"><button class="mini-btn" id="resetTheme" type="button">Сбросить настройки цвета</button></article><article class="card"><h3>Цвет курсора</h3><p class="muted">Меняет цвет точки, кольца и подписи кастомного курсора.</p><label for="cursorColor">Цвет курсора</label><input id="cursorColor" type="color" value="#c8ff45" style="display:block;width:100%;height:48px;padding:4px;margin:8px 0 16px"><div class="notice">На телефонах и устройствах с сенсорным экраном кастомный курсор автоматически скрывается.</div><p id="settingsStatus" class="toast" aria-live="polite"></p></article><article class="card"><h3>Звуки интерфейса</h3><p class="muted">Короткие тактические сигналы при нажатии и наведении. Звук создаётся самим браузером, дополнительные файлы не нужны.</p><label style="display:flex;align-items:center;gap:10px;margin:14px 0"><input id="uiSoundsToggle" type="checkbox" checked style="accent-color:var(--lime);width:18px;height:18px"> Включить звуки интерфейса</label><p class="muted" style="font-size:12px">Настройка сохраняется в этом браузере. Первый звук появится после взаимодействия со страницей.</p><p id="soundStatus" class="toast" aria-live="polite"></p></article></div></div></section>
 <section id="backend"><div class="wrap"><div class="section-head"><div><div class="eyebrow">08 / INFRASTRUCTURE PLAN</div><h2>План настоящего backend</h2><p class="muted">Архитектурный план, а не подключённый сервер. Сейчас сайт остаётся статическим.</p></div><span class="tag">NOT CONNECTED</span></div><div class="split"><article class="card"><h3>Рекомендуемая архитектура</h3><div class="terminal"><b>WEB CLIENT</b>  HTML / CSS / JS
        │ HTTPS
        ▼
@@ -284,4 +294,59 @@ document.getElementById('year').textContent=new Date().getFullYear();render();
 (()=>{const modal=document.getElementById('applyModal');if(!modal)return;const open=()=>{modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';const close=modal.querySelector('[data-close-apply]');if(close)close.focus()};const shut=()=>{modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');document.body.style.overflow=''};document.querySelectorAll('a[href="#join"],[data-open-apply]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();open()}));modal.querySelectorAll('[data-close-apply]').forEach(el=>el.addEventListener('click',shut));modal.addEventListener('click',e=>{if(e.target===modal)shut()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('is-open'))shut()});})();
 </script>
 
+
+<script>
+// EPICENTER UI sounds: synthesized locally with Web Audio; no external assets.
+(function(){
+  const toggle=document.getElementById('uiSoundsToggle');
+  const status=document.getElementById('soundStatus');
+  if(!toggle) return;
+  let enabled=true, audio=null, lastHover=0;
+  try { const saved=localStorage.getItem('epicenter_ui_sounds'); if(saved!==null) enabled=saved==='1'; } catch(e) {}
+  toggle.checked=enabled;
+  function context(){
+    const Ctx=window.AudioContext||window.webkitAudioContext;
+    if(!Ctx) return null;
+    if(!audio) audio=new Ctx();
+    if(audio.state==='suspended') audio.resume().catch(()=>{});
+    return audio;
+  }
+  function tone(freq, duration, type, volume, endFreq){
+    if(!enabled) return;
+    const ctx=context(); if(!ctx) return;
+    const osc=ctx.createOscillator(), gain=ctx.createGain();
+    const now=ctx.currentTime;
+    osc.type=type||'sine'; osc.frequency.setValueAtTime(freq,now);
+    if(endFreq) osc.frequency.exponentialRampToValueAtTime(endFreq,now+duration);
+    gain.gain.setValueAtTime(0.0001,now);
+    gain.gain.exponentialRampToValueAtTime(volume||0.025,now+0.012);
+    gain.gain.exponentialRampToValueAtTime(0.0001,now+duration);
+    osc.connect(gain); gain.connect(ctx.destination); osc.start(now); osc.stop(now+duration+0.02);
+  }
+  function clickSound(el){
+    if(!enabled) return;
+    if(el && (el.id==='uiSoundsToggle')) { tone(660,.075,'sine',.018,880); return; }
+    tone(520,.065,'triangle',.022,760);
+    setTimeout(()=>tone(780,.055,'sine',.014,920),42);
+  }
+  document.addEventListener('click',e=>{
+    const target=e.target.closest('button,a,[role="button"],.channel,.mini-btn');
+    if(target) clickSound(target);
+  },true);
+  document.addEventListener('pointerover',e=>{
+    const target=e.target.closest('button,a,.channel,.mini-btn');
+    if(!target || target.contains(e.relatedTarget) || !enabled) return;
+    const now=Date.now(); if(now-lastHover<110) return; lastHover=now;
+    tone(1050,.025,'sine',.006,1250);
+  },true);
+  toggle.addEventListener('change',()=>{
+    enabled=toggle.checked;
+    try { localStorage.setItem('epicenter_ui_sounds',enabled?'1':'0'); } catch(e) {}
+    if(status) status.textContent=enabled?'Звуки включены.':'Звуки выключены.';
+    if(enabled) tone(660,.09,'sine',.02,990);
+  });
+  // Prime audio only after a real user gesture; browsers block autoplay by design.
+  document.addEventListener('pointerdown',()=>{if(enabled) context();},{once:true,passive:true});
+})();
+</script>
 </body></html>
